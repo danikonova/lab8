@@ -10,7 +10,7 @@
 '''
 from fractions import Fraction
 import tkinter as tk
-
+from tkinter import scrolledtext
 
 def calculate_max_sum():
     fractions = set()
@@ -49,20 +49,20 @@ def calculate_max_sum():
                 # Если количество найденных пар дробей достигло указанного числа, прекратить поиск
                 if len(max_fractions) == num_pairs:
                     break
-            
+  
         if len(max_fractions) == num_pairs:
             break
 
     # Вывод результатов
     max_sum_label.config(text=f"Максимальная сумма по модулю 5: {max_sum}")
     fractions_output.delete(1.0, tk.END)
-    for fraction_pair in max_fractions:
-        fractions_output.insert(tk.END, f"{fraction_pair[0]} | {fraction_pair[1]}\n")
+    for fractions in max_fractions:
+        fractions_output.insert(tk.END, f"{fractions}\n")
 
 # Создание главного окна
 root = tk.Tk()
 root.title('Lab 8')
-root.geometry("400x300")
+root.geometry("600x400")
 root.resizable(False, False)
 
 # Создание окна ввода
@@ -83,12 +83,18 @@ max_sum_frame.pack(pady=10)
 max_sum_label = tk.Label(max_sum_frame, text="Максимальная сумма по модулю 5: ")
 max_sum_label.pack()
 
-# Создание текстового поля для вывода дробей
-fractions_output = tk.Text(root, height=10)
-fractions_output.pack()
-
 # Создание кнопки для расчета
 calculate_button = tk.Button(root, text="Рассчитать", command=calculate_max_sum)
-calculate_button.pack(pady=5)
+calculate_button.pack(pady=2)
+
+# Создание текстового поля для вывода дробей
+fractions_output = tk.Text(root, width=70, height=20)
+fractions_output.pack(side=tk.LEFT)
+
+#Создание Scrollbar
+scroll= tk.Scrollbar(root, command=fractions_output.yview)
+scroll.pack(side=tk.RIGHT, fill=tk.Y)
+fractions_output.configure(yscrollcommand = scroll.set)
 
 root.mainloop()
+
